@@ -5,8 +5,7 @@ RE_YT_ID = Regex('[a-z0-9\-_]{11}', Regex.IGNORECASE)
 
 def Start():
 	HTTP.CacheTime = CACHE_1MONTH
-	HTTP.Headers[
-		'User-Agent'] = 'Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.54'
+	HTTP.Headers['User-Agent'] = 'Mozilla/5.0 (iPad; CPU OS 7_0_4 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11B554a Safari/9537.54'
 	HTTP.Headers['Accept-Language'] = 'en-us'
 
 
@@ -30,11 +29,11 @@ class YouTubeAgent(Agent.Movies):
 			if yt_id and RE_YT_ID.search(yt_id):
 				results.Append(
 					MetadataSearchResult(
-						id=yt_id,
-						name=media.name,
-						year=None,
-						score=99,
-						lang=lang
+						id = yt_id,
+						name = media.name,
+						year = None,
+						score = 99,
+						lang = lang
 					)
 				)
 			else:
@@ -46,11 +45,11 @@ class YouTubeAgent(Agent.Movies):
 						yt_id = json_obj['items'][0]['id']['videoId']
 						results.Append(
 							MetadataSearchResult(
-								id=yt_id,
-								name=media.name,
-								year=None,
-								score=99,
-								lang=lang
+								id = yt_id,
+								name = media.name,
+								year = None,
+								score = 99,
+								lang = lang
 							)
 						)
 
@@ -81,8 +80,7 @@ class YouTubeAgent(Agent.Movies):
 			except IndexError:
 				Log('No Summary for: %s' % metadata.id)
 
-			date = Datetime.ParseDate(
-				json_obj['video_main_content']['contents'][0]['date_text']['runs'][0]['text'].split('on ')[-1])
+			date = Datetime.ParseDate(json_obj['video_main_content']['contents'][0]['date_text']['runs'][0]['text'].split('on ')[-1])
 			metadata.originally_available_at = date.date()
 			metadata.year = date.year
 
@@ -93,9 +91,7 @@ class YouTubeAgent(Agent.Movies):
 
 				try:
 					meta_director = metadata.directors.new()
-					meta_director.name = json_obj['video_main_content']['contents'][0]['short_byline_text']['runs'][0][
-						'text']
-					meta_director.photo = json_obj['video_main_content']['contents'][0]['thumbnail']['url'].replace(
-						'/s88-', '/s512-')
+					meta_director.name = json_obj['video_main_content']['contents'][0]['short_byline_text']['runs'][0]['text']
+					meta_director.photo = json_obj['video_main_content']['contents'][0]['thumbnail']['url'].replace('/s88-', '/s512-')
 				except:
 					pass
